@@ -1,6 +1,13 @@
 server:
   port: 8088
+  compression:
+    excluded-user-agents:
+    - 
 
 logging:
   level:
    org.springframework: debug
+   
+spring:
+  messages:
+    basename: messages

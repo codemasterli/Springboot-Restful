@@ -3,8 +3,10 @@ package com.example.restfulwebservice;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +32,13 @@ public class CustomizedResponseEntitiyExceptionHandler extends ResponseEntityExc
  		
  		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
  		
+ 	}
+     @Override //추가하면 부모가 가지고 있는 메소드 재정의
+     protected ResponseEntity<Object> handleMethodArgumentNotValid(
+ 			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+    	 ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
+    			"Validation Failed",ex.getBindingResult().toString());
+ 		return new ResponseEntity(exceptionResponse,HttpStatus.BAD_REQUEST);
  	}
 }
